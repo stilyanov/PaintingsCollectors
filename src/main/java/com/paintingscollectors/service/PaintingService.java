@@ -79,6 +79,15 @@ public class PaintingService {
     }
 
     public void deletePainting(Long paintingId, Long userId) {
+        Optional<Painting> optionalPainting = this.paintingRepository.findById(paintingId);
+        if (optionalPainting.isPresent()) {
+            Painting painting = optionalPainting.get();
+
+            if (painting.isFavourite()){
+                return;
+            }
+        }
+
         this.paintingRepository.deletePaintingByIdAndOwnerId(paintingId, userSession.id());
     }
 
